@@ -1,0 +1,14 @@
+{
+  "name": "gp925-examenm1-c-platformer",
+  "version": "1.0.0",
+  "dependencies": [
+    {
+      "name": "sfml",
+      "default-features": false,
+      "features": [
+        "graphics",
+        "window"
+      ]
+    }
+  ]
+}

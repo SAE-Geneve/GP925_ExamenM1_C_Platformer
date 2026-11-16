@@ -1,7 +1,9 @@
-// Platformer : courir, sauter de plateforme en plateforme, atteindre la porte.
+// Platformer : courir, sauter de plateforme en plateforme, franchir la fosse par le haut
+// et atteindre la porte posee sur le sol de droite.
 
 #include <iostream>
 #include <optional>
+#include <string>
 
 #include <SFML/Graphics.hpp>
 
@@ -13,20 +15,30 @@ namespace {
 constexpr float kPasDeTemps = 1.f / 60.f;
 constexpr float kDepartX = 100.f;
 constexpr float kDepartPiedY = 570.f;
-constexpr float kBasDeLEcran = 600.f;
+constexpr float kHorsDeLEcran = 660.f;
+
+const char* const kCheminDeLaPolice = "C:/Windows/Fonts/segoeui.ttf";
 
 }  // namespace
 
 int main() {
+  sf::Font police;
+  if (!police.openFromFile(kCheminDeLaPolice)) {
+    std::cerr << "Police introuvable : " << kCheminDeLaPolice << std::endl;
+    return 1;
+  }
+
   sf::RenderWindow fenetre(sf::VideoMode({800u, 600u}), "Platformer");
   fenetre.setFramerateLimit(60);
 
   Niveau niveau;
   Heros heros(kDepartX, kDepartPiedY);
-  bool sorti_de_l_ecran = false;
+  std::string message;
 
-  std::cout << "Platformer -- fleches pour courir, espace pour sauter. La porte jaune est la "
-               "sortie."
+  sf::Text ligne(police, "", 16);
+
+  std::cout << "Platformer -- clique dans la fenetre, puis fleches pour courir, espace pour "
+               "sauter. La porte jaune est la sortie."
             << std::endl;
 
   while (fenetre.isOpen()) {
@@ -57,14 +69,27 @@ int main() {
       fenetre.close();
     }
 
-    if (!sorti_de_l_ecran && heros.PiedY() > kBasDeLEcran) {
-      std::cout << "Le heros est sorti de l'ecran par le bas." << std::endl;
-      sorti_de_l_ecran = true;
+    if (heros.PiedY() > kHorsDeLEcran) {
+      heros = Heros(kDepartX, kDepartPiedY);
+      message = "Tombe. Retour au depart.";
+      std::cout << message << std::endl;
     }
 
     fenetre.clear(sf::Color(28, 32, 44));
     niveau.Dessiner(fenetre);
     heros.Dessiner(fenetre);
+
+    ligne.setFillColor(sf::Color(140, 149, 168));
+    ligne.setString("Fleches : courir       Espace : sauter       Objectif : la porte jaune, "
+                    "de l'autre cote de la fosse");
+    ligne.setPosition({24.f, 16.f});
+    fenetre.draw(ligne);
+
+    ligne.setFillColor(sf::Color(224, 160, 90));
+    ligne.setString(message);
+    ligne.setPosition({24.f, 40.f});
+    fenetre.draw(ligne);
+
     fenetre.display();
   }
 }

@@ -14,40 +14,50 @@ constexpr float kTailleDeLaSortie = 30.f;
 }  // namespace
 
 Niveau::Niveau() {
-  sol_.setSize({800.f, 16.f});
-  sol_.setPosition({0.f, 570.f});
-  sol_.setFillColor(kCouleurDeLaPierre);
-  sol_.setOutlineThickness(1.f);
-  sol_.setOutlineColor(kCouleurDuBord);
+  sol_gauche_.setSize({260.f, 16.f});
+  sol_gauche_.setPosition({0.f, 570.f});
+  sol_gauche_.setFillColor(kCouleurDeLaPierre);
+  sol_gauche_.setOutlineThickness(1.f);
+  sol_gauche_.setOutlineColor(kCouleurDuBord);
 
-  plateforme_a_.setSize({320.f, 16.f});
-  plateforme_a_.setPosition({240.f, 370.f});
+  sol_droite_.setSize({200.f, 16.f});
+  sol_droite_.setPosition({600.f, 570.f});
+  sol_droite_.setFillColor(kCouleurDeLaPierre);
+  sol_droite_.setOutlineThickness(1.f);
+  sol_droite_.setOutlineColor(kCouleurDuBord);
+
+  plateforme_a_.setSize({240.f, 16.f});
+  plateforme_a_.setPosition({40.f, 380.f});
   plateforme_a_.setFillColor(kCouleurDeLaPierre);
   plateforme_a_.setOutlineThickness(1.f);
   plateforme_a_.setOutlineColor(kCouleurDuBord);
 
-  plateforme_b_.setSize({260.f, 16.f});
-  plateforme_b_.setPosition({40.f, 177.f});
+  plateforme_b_.setSize({440.f, 16.f});
+  plateforme_b_.setPosition({40.f, 197.f});
   plateforme_b_.setFillColor(kCouleurDeLaPierre);
   plateforme_b_.setOutlineThickness(1.f);
   plateforme_b_.setOutlineColor(kCouleurDuBord);
 
   sortie_.setSize({kTailleDeLaSortie, kTailleDeLaSortie});
-  sortie_.setPosition({150.f, 177.f - kTailleDeLaSortie});
+  sortie_.setPosition({690.f, 570.f - kTailleDeLaSortie});
   sortie_.setFillColor(sf::Color(240, 210, 90));
   sortie_.setOutlineThickness(1.f);
   sortie_.setOutlineColor(kCouleurDuBord);
 }
 
 void Niveau::Dessiner(sf::RenderWindow& fenetre) const {
-  fenetre.draw(sol_);
+  fenetre.draw(sol_gauche_);
+  fenetre.draw(sol_droite_);
   fenetre.draw(plateforme_a_);
   fenetre.draw(plateforme_b_);
   fenetre.draw(sortie_);
 }
 
 bool Niveau::PoseLeHeros(Heros& heros) const {
-  if (Atterrit(heros, sol_)) {
+  if (Atterrit(heros, sol_gauche_)) {
+    return true;
+  }
+  if (Atterrit(heros, sol_droite_)) {
     return true;
   }
   if (Atterrit(heros, plateforme_a_)) {

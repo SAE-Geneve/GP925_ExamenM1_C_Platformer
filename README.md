@@ -43,9 +43,9 @@ Dans **CLion** : ouvrir le dossier, laisser CLion configurer le projet (SFML est
 `vcpkg.json`, le panneau *Vcpkg* s'en charge), puis *Build* et *Run* sur la cible
 `platformer`.
 
-La police d'affichage est livrée avec le projet, dans `platformer/assets/tuffy.ttf` — celle
-des exemples SFML (Thatcher Ulrich, domaine public). CMake en câble le chemin : rien à
-installer, et le jeu se lance depuis n'importe quel répertoire de travail.
+La police d'affichage est livrée avec le projet, dans `platformer/data/tuffy.ttf` — celle des
+exemples SFML (Thatcher Ulrich, domaine public). CMake copie `data/` à côté de l'exécutable
+à chaque build : le dossier de sortie s'emporte tel quel, rien à installer.
 
 En ligne de commande :
 

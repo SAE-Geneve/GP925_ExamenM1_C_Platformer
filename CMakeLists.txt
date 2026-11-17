@@ -16,4 +16,12 @@ endif()
 #   cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
 find_package(SFML 3 COMPONENTS Graphics REQUIRED)
 
+# Copie le dossier data/ de la cible a cote de son executable.
+# Sans ca, les chemins relatifs du code ne trouvent rien a l'execution.
+function(copy_data target)
+    add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/data" "$<TARGET_FILE_DIR:${target}>/data")
+endfunction()
+
 add_subdirectory(platformer)

@@ -17,14 +17,13 @@ constexpr float kDepartX = 100.f;
 constexpr float kDepartPiedY = 570.f;
 constexpr float kHorsDeLEcran = 660.f;
 
-const char* const kCheminDeLaPolice = "C:/Windows/Fonts/segoeui.ttf";
-
 }  // namespace
 
 int main() {
+  const std::string chemin_de_la_police = std::string(DOSSIER_DES_ASSETS) + "/tuffy.ttf";
   sf::Font police;
-  if (!police.openFromFile(kCheminDeLaPolice)) {
-    std::cerr << "Police introuvable : " << kCheminDeLaPolice << std::endl;
+  if (!police.openFromFile(chemin_de_la_police)) {
+    std::cerr << "Police introuvable : " << chemin_de_la_police << std::endl;
     return 1;
   }
 
@@ -80,8 +79,8 @@ int main() {
     heros.Dessiner(fenetre);
 
     ligne.setFillColor(sf::Color(140, 149, 168));
-    ligne.setString("Fleches : courir       Espace : sauter       Objectif : la porte jaune, "
-                    "de l'autre cote de la fosse");
+    ligne.setString("Fleches : courir     Espace : sauter     Objectif : la porte, de l'autre "
+                    "cote de la fosse");
     ligne.setPosition({24.f, 16.f});
     fenetre.draw(ligne);
 
